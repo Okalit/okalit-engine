@@ -1,0 +1,24 @@
+{
+  "name": "@okalit/engine",
+  "version": "0.0.1",
+  "description": "Compiler for Okalit .ok component files",
+  "type": "commonjs",
+  "main": "./src/index.cjs",
+  "exports": {
+    ".": "./src/index.cjs",
+    "./loader": "./src/loader.cjs"
+  },
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "test": "node --test test/*.test.cjs"
+  },
+  "dependencies": {
+    "@babel/parser": "^7.29.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
