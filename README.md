@@ -35,9 +35,37 @@ when unused.
 
 `@script` contains ordinary module-scope JavaScript, including imports,
 constants, and shared helper functions. `@logic` contains class members such as
-fields and methods. `@render` is compiled as a Lit `html` template. Style paths
-in the role configuration are imported relative to the `.ok` file. Routes,
-services, guards, and interceptors remain regular JavaScript modules.
+fields and methods. `@render` is compiled as the component's `render()` method.
+Style paths in the role configuration are imported relative to the `.ok` file.
+Routes, services, guards, and interceptors remain regular JavaScript modules.
+
+Repeatable `@template` declarations add Lit template accessors or methods to the
+role class:
+
+```text
+@template heading {
+  <h1>${this.title}</h1>
+}
+
+@template itemRow(item, index = 0) {
+  <li>${index + 1}. ${item.label}</li>
+}
+
+@template emptyState() {
+  <p>No items yet.</p>
+}
+```
+
+`@template name { ... }` compiles to a `get name()` class member;
+`@template name(params) { ... }` compiles to a `name(params)` method. The
+parentheses are significant: `emptyState()` is a method with no parameters,
+whereas `emptyState` is a getter. Parameters use JavaScript function-parameter
+syntax, including defaults and destructuring. Template bodies are Lit `html`
+template contents, so `${...}` expressions are parsed as JavaScript and
+interpolate normally. Each template name must be unique within the file and
+must not also be declared as an instance member in `@logic`. `render` and
+`constructor` are reserved template names. As with other blocks, put the
+closing `}` on its own line; an empty body may use `{}`.
 
 This alpha does not implement `@if` or `@for` yet. Use standard JavaScript and
 Lit expressions in `@render`.
